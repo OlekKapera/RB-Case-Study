@@ -49,7 +49,14 @@ class Records extends StatelessWidget {
             ),
             SizedBox(height: 24),
             GradientButton('Add new sleeping record'),
-            RecordsItem(),
+            Expanded(
+              child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return RecordsItem();
+                  },
+                  separatorBuilder: (context, index) => Divider(height: 1, thickness: 1),
+                  itemCount: 100),
+            ),
           ],
         ),
       ),
