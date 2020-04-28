@@ -20,7 +20,7 @@ class _RecordsItemState extends State<RecordsItem> {
                 Text(
                   '10:42',
                   style: TextStyle(
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
@@ -40,7 +40,30 @@ class _RecordsItemState extends State<RecordsItem> {
         Expanded(
           flex: 4,
           child: Container(
-            color: Colors.yellow,
+            padding: EdgeInsets.all(16.0),
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Night's sleep",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[900],
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  "6 hours 12 minutes",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
           ),
         )
       ],
