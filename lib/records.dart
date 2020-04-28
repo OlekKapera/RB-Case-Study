@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'custom_icons_icons.dart';
 import 'widgets/gradient_button.dart';
+import 'widgets/records_item.dart';
 
 class Records extends StatelessWidget {
   @override
@@ -48,6 +49,7 @@ class Records extends StatelessWidget {
             ),
             SizedBox(height: 24),
             GradientButton('Add new sleeping record'),
+            RecordsItem(),
           ],
         ),
       ),
