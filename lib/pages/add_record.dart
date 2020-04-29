@@ -51,7 +51,7 @@ class _AddRecordState extends State<AddRecord> {
               ),
               child: Image.asset(
                 'assets/img_add_record.jpg',
-                height: 180,
+                height: 200,
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.topCenter,
               ),
