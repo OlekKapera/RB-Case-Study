@@ -55,11 +55,15 @@ class _AddRecordState extends State<AddRecord> {
             title: 'Date and time',
             text: "widget.record.dateTime?.toString()",
             onClick: () async {
-              widget.record.dateTime = await showDatePicker(
+              DateTime date = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(0),
                   lastDate: DateTime.now());
+              TimeOfDay time = await showTimePicker(
+                  context: context, initialTime: TimeOfDay.now());
+              widget.record.dateTime = DateTime(
+                  date.year, date.month, date.day, time.hour, time.minute);
             },
           ),
           PickerDescription(
