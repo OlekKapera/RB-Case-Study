@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
 import 'package:rbcasestudy/models/record_model.dart';
 import 'package:rbcasestudy/widgets/gradient_button.dart';
@@ -53,17 +54,24 @@ class _AddRecordState extends State<AddRecord> {
           PickerDescription(
             icon: CustomIcons.calendar,
             title: 'Date and time',
-            text: "widget.record.dateTime?.toString()",
-            onClick: () async {
-              DateTime date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(0),
-                  lastDate: DateTime.now());
-              TimeOfDay time = await showTimePicker(
-                  context: context, initialTime: TimeOfDay.now());
-              widget.record.dateTime = DateTime(
-                  date.year, date.month, date.day, time.hour, time.minute);
+            text: _formatDateTime(widget.record.dateTime),
+            onClick: () {
+              showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(0),
+                      lastDate: DateTime.now())
+                  .then((date) {
+                if (date != null)
+                  showTimePicker(context: context, initialTime: TimeOfDay.now())
+                      .then((time) {
+                    if (time != null)
+                      setState(() {
+                        widget.record.dateTime = DateTime(date.year, date.month,
+                            date.day, time.hour, time.minute);
+                      });
+                  });
+              });
             },
           ),
           PickerDescription(
@@ -88,5 +96,11 @@ class _AddRecordState extends State<AddRecord> {
         ],
       ),
     );
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    if (dateTime != null)
+      return DateFormat('d MMMM yyyy, H:mm').format(dateTime).toString();
+    return null;
   }
 }
