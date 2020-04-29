@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
 import 'package:rbcasestudy/models/record_model.dart';
+import 'package:rbcasestudy/models/sleep_type_enum.dart';
 import 'package:rbcasestudy/widgets/duration_dialog.dart';
 import 'package:rbcasestudy/widgets/gradient_button.dart';
 import 'package:rbcasestudy/widgets/picker_description.dart';
@@ -80,7 +81,21 @@ class _AddRecordState extends State<AddRecord> {
             title: 'Sleep type',
             holderText: 'Night, nap, etc',
             onClick: () {
-              print('bbb');
+              showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  builder: (BuildContext context) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        _createListTile(context, SleepTypeEnum.NIGHT),
+                        Divider(height: 3),
+                        _createListTile(context, SleepTypeEnum.NAP),
+                      ],
+                    );
+                  });
             },
           ),
           PickerDescription(
@@ -89,13 +104,17 @@ class _AddRecordState extends State<AddRecord> {
             holderText: '-',
             text: widget.record.getFormattedDuration(),
             onClick: () {
-             showDialog(context: context, builder: (BuildContext context){
-               return DurationDialog(duration: widget.record.duration,callback: (duration) {
-                 setState(() {
-                   widget.record.duration = duration;
-                 });
-               });
-             });
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return DurationDialog(
+                        duration: widget.record.duration,
+                        callback: (duration) {
+                          setState(() {
+                            widget.record.duration = duration;
+                          });
+                        });
+                  });
             },
           ),
           GradientButton('Save', () {
@@ -110,5 +129,31 @@ class _AddRecordState extends State<AddRecord> {
     if (dateTime != null)
       return DateFormat('d MMMM yyyy, H:mm').format(dateTime).toString();
     return null;
+  }
+
+  ListTile _createListTile(BuildContext context, SleepTypeEnum sleepType) {
+    String text;
+    switch (sleepType) {
+      case SleepTypeEnum.NIGHT:
+        text = "Night's sleep";
+        break;
+      case SleepTypeEnum.NAP:
+        text = 'Nap';
+        break;
+    }
+    return ListTile(
+      onTap: () {
+        setState(() {
+          widget.record.sleepType = sleepType;
+          Navigator.pop(context);
+        });
+      },
+      contentPadding: EdgeInsets.all(8),
+      title: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18),
+      ),
+    );
   }
 }
