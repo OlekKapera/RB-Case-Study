@@ -3,8 +3,9 @@ import 'package:numberpicker/numberpicker.dart';
 
 class DurationDialog extends AlertDialog {
   Duration duration;
+  Function callback;
 
-  DurationDialog([this.duration]) {
+  DurationDialog({this.duration, this.callback}) {
     if (duration == null) duration = Duration();
   }
 
@@ -43,6 +44,7 @@ class DurationDialog extends AlertDialog {
         FlatButton(
           child: Text('OK'),
           onPressed: () {
+            callback(duration);
             Navigator.pop(context, duration);
           },
         ),

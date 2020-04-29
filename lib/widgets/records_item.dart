@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbcasestudy/models/record_model.dart';
 import 'package:intl/intl.dart';
-import 'package:rbcasestudy/models/sleep_type_enum.dart';
+import 'package:rbcasestudy/models/record_model.dart';
 
 class RecordsItem extends StatelessWidget {
   final RecordModel record;
@@ -51,7 +50,7 @@ class RecordsItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    _getSleepTitle(),
+                    record.getSleepTitle(),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -60,7 +59,7 @@ class RecordsItem extends StatelessWidget {
                   ),
                   SizedBox(height: 2),
                   Text(
-                    _getSleepDuration(),
+                    record.getFormattedDuration(),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -74,30 +73,5 @@ class RecordsItem extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getSleepTitle() {
-    switch (record.sleepType) {
-      case SleepTypeEnum.NIGHT:
-        return "Night's sleep";
-        break;
-      case SleepTypeEnum.NAP:
-        return "Nap";
-    }
-    return "";
-  }
-
-  String _getSleepDuration() {
-    int minutes = record.duration.inMinutes % 60;
-
-    String hours = Intl.plural(record.duration.inHours,
-        zero: '',
-        one: '${record.duration.inHours} hour',
-        other: '${record.duration.inHours} hours');
-    String minutesString = Intl.plural(minutes,
-        zero: '',
-        one: '$minutes minutes',
-        other: '$minutes minutes');
-    return '$hours $minutesString';
   }
 }

@@ -87,9 +87,14 @@ class _AddRecordState extends State<AddRecord> {
             icon: CustomIcons.clock,
             title: 'Sleep duration',
             holderText: '-',
+            text: widget.record.duration.toString(),
             onClick: () {
              showDialog(context: context, builder: (BuildContext context){
-               return DurationDialog();
+               return DurationDialog(duration: widget.record.duration,callback: (duration) {
+                 setState(() {
+                   widget.record.duration = duration;
+                 });
+               });
              });
             },
           ),
@@ -103,6 +108,12 @@ class _AddRecordState extends State<AddRecord> {
 
   String _formatDateTime(DateTime dateTime) {
     if (dateTime != null)
+      return DateFormat('d MMMM yyyy, H:mm').format(dateTime).toString();
+    return null;
+  }
+
+  String _formatDuration(Duration duration) {
+    if (duration != null)
       return DateFormat('d MMMM yyyy, H:mm').format(dateTime).toString();
     return null;
   }
