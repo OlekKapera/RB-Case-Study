@@ -5,14 +5,14 @@ class GradientButton extends StatelessWidget {
   static const double radius = 64.0;
 
   final String _buttonText;
-  final Function onButtonClicked;
+  final Function _onButtonClicked;
 
-  GradientButton(this._buttonText, this.onButtonClicked);
+  GradientButton(this._buttonText, this._onButtonClicked);
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: onButtonClicked,
+      onPressed: _onButtonClicked,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
       ),

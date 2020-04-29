@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rbcasestudy/custom_icons_icons.dart';
 import 'package:rbcasestudy/widgets/picker_description.dart';
 
 class AddRecord extends StatefulWidget {
@@ -28,7 +29,7 @@ class _AddRecordState extends State<AddRecord> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Card(
-              elevation: 5,
+              elevation: 3,
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -41,7 +42,13 @@ class _AddRecordState extends State<AddRecord> {
               ),
             ),
           ),
-          PickerDescription(),
+          PickerDescription(
+            icon: CustomIcons.calendar,
+            title: 'Date and time',
+            onClick: () {
+              print('aaa');
+            },
+          ),
           Divider(height: 0, color: Colors.grey),
         ],
       ),
