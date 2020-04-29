@@ -7,12 +7,13 @@ import 'package:rbcasestudy/models/sleep_type_enum.dart';
 import 'package:rbcasestudy/widgets/duration_dialog.dart';
 import 'package:rbcasestudy/widgets/gradient_button.dart';
 import 'package:rbcasestudy/widgets/picker_description.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddRecord extends StatefulWidget {
   RecordModel record;
 
   AddRecord({this.record}) {
-    if (this.record == null){
+    if (this.record == null) {
       record = RecordModel();
       record.dateTime = DateTime.now();
     }
@@ -133,7 +134,11 @@ class _AddRecordState extends State<AddRecord> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: GradientButton('Save', () {
-            Navigator.pop(context, widget.record);
+            if (widget.record.sleepType == null ||
+                widget.record.duration == null)
+              Fluttertoast.showToast(msg: 'All fields need to be filled!');
+            else
+              Navigator.pop(context, widget.record);
           }),
         ),
       ),
