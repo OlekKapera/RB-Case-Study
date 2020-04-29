@@ -13,9 +13,8 @@ class Records extends StatefulWidget {
 }
 
 class _RecordsState extends State<Records> {
-  SplayTreeMap<DateTime, SplayTreeSet<RecordModel>> records = SplayTreeMap<
-      DateTime,
-      SplayTreeSet<RecordModel>>();
+  SplayTreeMap<DateTime, SplayTreeSet<RecordModel>> records =
+      SplayTreeMap<DateTime, SplayTreeSet<RecordModel>>();
 
 //  List<RecordModel> records = [
 //    RecordModel(
@@ -31,23 +30,18 @@ class _RecordsState extends State<Records> {
   @override
   Widget build(BuildContext context) {
     SplayTreeSet splayTreeSet = SplayTreeSet<RecordModel>(
-            (key1, key2) => key1.dateTime.compareTo(key2.dateTime));
+        (key1, key2) => key1.dateTime.compareTo(key2.dateTime));
     splayTreeSet.add(RecordModel(DateTime.now().add(Duration(days: 2)),
         SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)));
     splayTreeSet.add(RecordModel(
         DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 1, minutes: 20)));
-    splayTreeSet.add(RecordModel(
-        DateTime.now().add(Duration(hours: 2)), SleepTypeEnum.NIGHT,
-        Duration(hours: 1, minutes: 20)));
+    splayTreeSet.add(RecordModel(DateTime.now().add(Duration(hours: 2)),
+        SleepTypeEnum.NIGHT, Duration(hours: 1, minutes: 20)));
 
     records.addAll({
       DateTime.now().add(Duration(days: 2)): splayTreeSet,
       DateTime.now(): splayTreeSet,
       DateTime.now().add(Duration(days: 4)): splayTreeSet,
-    });
-
-    records.forEach((key, value) {
-      print(key.toString());
     });
     List recordKeys = records.keys.toList();
 
@@ -67,11 +61,9 @@ class _RecordsState extends State<Records> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
+      body: CustomScrollView(slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildListDelegate([
             CircleAvatar(
               backgroundColor: Colors.yellow[800],
               radius: 22,
@@ -98,6 +90,7 @@ class _RecordsState extends State<Records> {
               child: ListView.builder(
                 itemCount: recordKeys.length,
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   SplayTreeSet recordsInDay = records[recordKeys[index]];
 //                    if (index == 0) {
@@ -120,8 +113,10 @@ class _RecordsState extends State<Records> {
                               Divider(height: 1, thickness: 1),
                           itemCount: recordsInDay.length,
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return RecordsItem(recordsInDay.elementAt(index));
+                            return RecordsItem(
+                                recordsInDay.elementAt(index));
                           },
                         ),
                       ),
@@ -130,9 +125,9 @@ class _RecordsState extends State<Records> {
                 },
               ),
             ),
-          ],
+          ]),
         ),
-      ),
+      ]),
     );
   }
 }
