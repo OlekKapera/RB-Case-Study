@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
 import 'package:rbcasestudy/models/record_model.dart';
+import 'package:rbcasestudy/widgets/duration_dialog.dart';
 import 'package:rbcasestudy/widgets/gradient_button.dart';
 import 'package:rbcasestudy/widgets/picker_description.dart';
 
@@ -87,7 +88,9 @@ class _AddRecordState extends State<AddRecord> {
             title: 'Sleep duration',
             holderText: '-',
             onClick: () {
-              print('ccc');
+             showDialog(context: context, builder: (BuildContext context){
+               return DurationDialog();
+             });
             },
           ),
           GradientButton('Save', () {
