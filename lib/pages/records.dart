@@ -17,17 +17,6 @@ class _RecordsState extends State<Records> {
   SplayTreeMap<DateTime, SplayTreeSet<RecordModel>> records =
       SplayTreeMap<DateTime, SplayTreeSet<RecordModel>>();
 
-//  List<RecordModel> records = [
-//    RecordModel(
-//        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)),
-//    RecordModel(
-//        DateTime.now(), SleepTypeEnum.NIGHT, Duration(hours: 1, minutes: 20)),
-//    RecordModel(
-//        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 30)),
-//    RecordModel(
-//        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 60)),
-//  ];
-
   @override
   Widget build(BuildContext context) {
     SplayTreeSet splayTreeSet = SplayTreeSet<RecordModel>(

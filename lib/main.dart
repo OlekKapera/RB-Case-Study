@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'records.dart';
+import 'package:rbcasestudy/pages/add_record.dart';
+import 'package:rbcasestudy/pages/records.dart';
 
 void main() {
-  runApp(App());
-}
-
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sleep Tracker',
-      home: Records(),
-    );
-  }
+  runApp(MaterialApp(
+    title: 'Sleep Tracker',
+    home: Records(),
+    routes: {
+      '/': (context) => Records(),
+      '/add_record': (context) => AddRecord(),
+    },
+  ));
 }
