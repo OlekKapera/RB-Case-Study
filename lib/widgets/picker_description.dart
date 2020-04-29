@@ -49,7 +49,7 @@ class _PickerDescriptionState extends State<PickerDescription> {
                       widget.text == null ? widget.holderText : widget.text,
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[800],
+                        color: widget.text == null ? Colors.grey[400] : Colors.grey[800],
                       ),
                     )
                   ],
