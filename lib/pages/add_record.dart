@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rbcasestudy/widgets/picker_description.dart';
 
 class AddRecord extends StatefulWidget {
   @override
@@ -21,13 +22,13 @@ class _AddRecordState extends State<AddRecord> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Card(
-              elevation: 3,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 5,
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -39,8 +40,10 @@ class _AddRecordState extends State<AddRecord> {
                 alignment: Alignment.topCenter,
               ),
             ),
-          ],
-        ),
+          ),
+          PickerDescription(),
+          Divider(height: 0, color: Colors.grey),
+        ],
       ),
     );
   }
