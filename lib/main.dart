@@ -5,7 +5,7 @@ import 'package:rbcasestudy/pages/records.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Sleep Tracker',
-    home: Records(),
+    initialRoute: '/',
     routes: {
       '/': (context) => Records(),
       '/add_record': (context) => AddRecord(),

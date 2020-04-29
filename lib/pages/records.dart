@@ -40,7 +40,7 @@ class _RecordsState extends State<Records> {
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
         title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 48.0),
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 54.0),
           child: Text(
             'Sleep Tracker',
             style: TextStyle(
@@ -77,7 +77,9 @@ class _RecordsState extends State<Records> {
                 ),
               ),
               SizedBox(height: 24),
-              GradientButton('Add new sleeping record'),
+              GradientButton('Add new sleeping record', () {
+                Navigator.pushNamed(context, '/add_record');
+              }),
               Expanded(
                 child: ListView.builder(
                   itemCount: recordKeys.length,
