@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rbcasestudy/models/record_model.dart';
 
-class RecordsItem extends StatefulWidget {
-  @override
-  _RecordsItemState createState() => _RecordsItemState();
-}
+class RecordsItem extends StatelessWidget {
+  final List<RecordModel> records;
 
-class _RecordsItemState extends State<RecordsItem> {
+  RecordsItem(this.records);
 
   @override
   Widget build(BuildContext context) {
