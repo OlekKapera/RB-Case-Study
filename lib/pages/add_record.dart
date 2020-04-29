@@ -12,7 +12,10 @@ class AddRecord extends StatefulWidget {
   RecordModel record;
 
   AddRecord({this.record}) {
-    this.record = record == null ? RecordModel() : record;
+    if (this.record == null){
+      record = RecordModel();
+      record.dateTime = DateTime.now();
+    }
   }
 
   @override
@@ -47,7 +50,7 @@ class _AddRecordState extends State<AddRecord> {
               ),
               child: Image.asset(
                 'assets/img_add_record.jpg',
-                height: 200,
+                height: 180,
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.topCenter,
               ),
@@ -60,12 +63,16 @@ class _AddRecordState extends State<AddRecord> {
             onClick: () {
               showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate: widget.record.dateTime,
                       firstDate: DateTime(0),
                       lastDate: DateTime.now())
                   .then((date) {
                 if (date != null)
-                  showTimePicker(context: context, initialTime: TimeOfDay.now())
+                  showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                              hour: widget.record.dateTime.hour,
+                              minute: widget.record.dateTime.minute))
                       .then((time) {
                     if (time != null)
                       setState(() {
@@ -118,18 +125,25 @@ class _AddRecordState extends State<AddRecord> {
                   });
             },
           ),
-          GradientButton('Save', () {
-            Navigator.pop(context, widget.record);
-          })
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child: GradientButton('Save', () {
+            Navigator.pop(context, widget.record);
+          }),
+        ),
       ),
     );
   }
 
   String _formatDateTime(DateTime dateTime) {
-    if (dateTime != null)
-      return DateFormat('d MMMM yyyy, H:mm').format(dateTime).toString();
-    return null;
+    if (dateTime == null) dateTime = DateTime.now();
+
+    return DateFormat('d MMMM yyyy, H:mm').format(dateTime).toString();
   }
 
   ListTile _createListTile(BuildContext context, SleepTypeEnum sleepType) {

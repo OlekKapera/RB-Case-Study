@@ -22,7 +22,7 @@ class _PickerDescriptionState extends State<PickerDescription> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(horizontal:24.0, vertical: 16.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
