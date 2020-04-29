@@ -7,7 +7,6 @@ class RecordsItem extends StatefulWidget {
 
 class _RecordsItemState extends State<RecordsItem> {
 
-
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(

@@ -1,0 +1,4 @@
+enum SleepTypeEnum {
+  NIGHT,
+  NAP
+}
