@@ -17,7 +17,7 @@ class DurationDialog extends AlertDialog {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           NumberPicker.integer(
-              initialValue: 0,
+              initialValue: duration.inHours,
               minValue: 0,
               maxValue: 23,
               onChanged: (hour) {
@@ -26,7 +26,7 @@ class DurationDialog extends AlertDialog {
               }),
           Text(':'),
           NumberPicker.integer(
-              initialValue: 0,
+              initialValue: duration.inMinutes % 60,
               minValue: 0,
               maxValue: 59,
               onChanged: (minute) {
@@ -44,7 +44,7 @@ class DurationDialog extends AlertDialog {
         FlatButton(
           child: Text('OK'),
           onPressed: () {
-            callback(duration);
+            if (duration != Duration()) callback(duration);
             Navigator.pop(context, duration);
           },
         ),
