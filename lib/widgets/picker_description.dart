@@ -19,41 +19,46 @@ class _PickerDescriptionState extends State<PickerDescription> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: widget.onClick,
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Icon(
-              widget.icon,
-              color: Colors.indigo[700],
-              size: 20,
-            ),
-            SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  widget.title,
-                  style: TextStyle(
-                    color: Colors.indigo[700],
-                    fontWeight: FontWeight.w900,
-                    fontSize: 14,
-                  ),
+                Icon(
+                  widget.icon,
+                  color: Colors.indigo[700],
+                  size: 20,
                 ),
-                SizedBox(height: 4),
-                Text(
-                  widget.text == null ? widget.holderText : widget.text,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[800],
-                  ),
-                )
+                SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        color: Colors.indigo[700],
+                        fontWeight: FontWeight.w900,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      widget.text == null ? widget.holderText : widget.text,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[800],
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Divider(height: 0, color: Colors.grey),
+        ],
       ),
     );
   }

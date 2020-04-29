@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:rbcasestudy/models/record_model.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
 import 'package:rbcasestudy/models/sleep_type_enum.dart';
+import 'package:rbcasestudy/pages/add_record.dart';
 import 'package:rbcasestudy/widgets/gradient_button.dart';
 import 'package:rbcasestudy/widgets/records_item.dart';
 
@@ -21,12 +22,18 @@ class _RecordsState extends State<Records> {
   Widget build(BuildContext context) {
     SplayTreeSet splayTreeSet = SplayTreeSet<RecordModel>(
         (key1, key2) => key1.dateTime.compareTo(key2.dateTime));
-    splayTreeSet.add(RecordModel(DateTime.now().add(Duration(days: 2)),
-        SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)));
     splayTreeSet.add(RecordModel(
-        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 1, minutes: 20)));
-    splayTreeSet.add(RecordModel(DateTime.now().add(Duration(hours: 2)),
-        SleepTypeEnum.NIGHT, Duration(hours: 1, minutes: 20)));
+        dateTime: DateTime.now().add(Duration(days: 2)),
+        sleepType: SleepTypeEnum.NAP,
+        duration: Duration(hours: 2, minutes: 10)));
+    splayTreeSet.add(RecordModel(
+        dateTime: DateTime.now(),
+        sleepType: SleepTypeEnum.NAP,
+        duration: Duration(hours: 1, minutes: 20)));
+    splayTreeSet.add(RecordModel(
+        dateTime: DateTime.now().add(Duration(hours: 2)),
+        sleepType: SleepTypeEnum.NIGHT,
+        duration: Duration(hours: 1, minutes: 20)));
 
     records.addAll({
       DateTime.now().add(Duration(days: 2)): splayTreeSet,
@@ -77,8 +84,12 @@ class _RecordsState extends State<Records> {
                 ),
               ),
               SizedBox(height: 24),
-              GradientButton('Add new sleeping record', () {
-                Navigator.pushNamed(context, '/add_record');
+              GradientButton('Add new sleeping record', () async {
+                final RecordModel newRecord = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddRecord(),
+                    ));
               }),
               Expanded(
                 child: ListView.builder(
@@ -93,7 +104,9 @@ class _RecordsState extends State<Records> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 64, 0, 32),
                           child: Text(
-                            DateFormat('EEEE, d LLL yyyy').format(recordKeys[index]).toUpperCase(),
+                            DateFormat('EEEE, d LLL yyyy')
+                                .format(recordKeys[index])
+                                .toUpperCase(),
                             style: TextStyle(
                               color: Colors.grey[700],
                               fontSize: 16.0,
@@ -115,8 +128,7 @@ class _RecordsState extends State<Records> {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return RecordsItem(
-                                  recordsInDay.elementAt(index));
+                              return RecordsItem(recordsInDay.elementAt(index));
                             },
                           ),
                         ),

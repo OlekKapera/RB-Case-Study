@@ -1,9 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
+import 'package:rbcasestudy/models/record_model.dart';
+import 'package:rbcasestudy/widgets/gradient_button.dart';
 import 'package:rbcasestudy/widgets/picker_description.dart';
 
 class AddRecord extends StatefulWidget {
+  RecordModel record;
+
+  AddRecord({this.record}) {
+    this.record = record == null ? RecordModel() : record;
+  }
+
   @override
   _AddRecordState createState() => _AddRecordState();
 }
@@ -45,11 +53,34 @@ class _AddRecordState extends State<AddRecord> {
           PickerDescription(
             icon: CustomIcons.calendar,
             title: 'Date and time',
-            onClick: () {
-              print('aaa');
+            text: "widget.record.dateTime?.toString()",
+            onClick: () async {
+              widget.record.dateTime = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(0),
+                  lastDate: DateTime.now());
             },
           ),
-          Divider(height: 0, color: Colors.grey),
+          PickerDescription(
+            icon: CustomIcons.moon,
+            title: 'Sleep type',
+            holderText: 'Night, nap, etc',
+            onClick: () {
+              print('bbb');
+            },
+          ),
+          PickerDescription(
+            icon: CustomIcons.clock,
+            title: 'Sleep duration',
+            holderText: '-',
+            onClick: () {
+              print('ccc');
+            },
+          ),
+          GradientButton('Save', () {
+            Navigator.pop(context, widget.record);
+          })
         ],
       ),
     );

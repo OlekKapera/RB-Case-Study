@@ -6,5 +6,5 @@ class RecordModel {
   SleepTypeEnum sleepType;
   Duration duration;
 
-  RecordModel(this.dateTime, this.sleepType, this.duration);
+  RecordModel({this.dateTime, this.sleepType, this.duration});
 }
