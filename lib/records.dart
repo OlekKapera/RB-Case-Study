@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
-import 'custom_icons_icons.dart';
-import 'widgets/gradient_button.dart';
-import 'widgets/records_item.dart';
+import 'package:rbcasestudy/models/record_model.dart';
+import 'package:rbcasestudy/custom_icons_icons.dart';
+import 'package:rbcasestudy/models/sleep_type_enum.dart';
+import 'package:rbcasestudy/widgets/gradient_button.dart';
+import 'package:rbcasestudy/widgets/records_item.dart';
 
-class Records extends StatelessWidget {
+class Records extends StatefulWidget {
+  @override
+  _RecordsState createState() => _RecordsState();
+}
+
+class _RecordsState extends State<Records> {
+  List<RecordModel> records = [
+    RecordModel(DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)),
+    RecordModel(DateTime.now(), SleepTypeEnum.NIGHT, Duration(hours: 1, minutes: 20)),
+    RecordModel(DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 30)),
+    RecordModel(DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 60)),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +66,10 @@ class Records extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                   itemBuilder: (context, index) {
-                    return RecordsItem();
+                    return RecordsItem(records[index]);
                   },
                   separatorBuilder: (context, index) => Divider(height: 1, thickness: 1),
-                  itemCount: 100),
+                  itemCount: records.length),
             ),
           ],
         ),

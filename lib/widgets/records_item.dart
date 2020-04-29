@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rbcasestudy/models/record_model.dart';
+import 'package:intl/intl.dart';
+import 'package:rbcasestudy/models/sleep_type_enum.dart';
 
 class RecordsItem extends StatelessWidget {
-  final List<RecordModel> records;
+  final RecordModel record;
 
-  RecordsItem(this.records);
+  RecordsItem(this.record);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class RecordsItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '10:42',
+                    DateFormat('hh:mm').format(record.dateTime),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -28,7 +30,7 @@ class RecordsItem extends StatelessWidget {
                   ),
                   SizedBox(height: 1.0),
                   Text(
-                    'PM',
+                    DateFormat('a').format(record.dateTime).toUpperCase(),
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -46,9 +48,10 @@ class RecordsItem extends StatelessWidget {
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Night's sleep",
+                    _getSleepTitle(),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -57,7 +60,7 @@ class RecordsItem extends StatelessWidget {
                   ),
                   SizedBox(height: 2),
                   Text(
-                    "6 hours 12 minutes",
+                    _getSleepDuration(),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -71,5 +74,30 @@ class RecordsItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getSleepTitle() {
+    switch (record.sleepType) {
+      case SleepTypeEnum.NIGHT:
+        return "Night's sleep";
+        break;
+      case SleepTypeEnum.NAP:
+        return "Nap";
+    }
+    return "";
+  }
+
+  String _getSleepDuration() {
+    int minutes = record.duration.inMinutes % 60;
+
+    String hours = Intl.plural(record.duration.inHours,
+        zero: '',
+        one: '${record.duration.inHours} hour',
+        other: '${record.duration.inHours} hours');
+    String minutesString = Intl.plural(minutes,
+        zero: '',
+        one: '$minutes minutes',
+        other: '$minutes minutes');
+    return '$hours $minutesString';
   }
 }
