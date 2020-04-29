@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:rbcasestudy/models/record_model.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
@@ -11,15 +13,44 @@ class Records extends StatefulWidget {
 }
 
 class _RecordsState extends State<Records> {
-  List<RecordModel> records = [
-    RecordModel(DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)),
-    RecordModel(DateTime.now(), SleepTypeEnum.NIGHT, Duration(hours: 1, minutes: 20)),
-    RecordModel(DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 30)),
-    RecordModel(DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 60)),
-  ];
+  SplayTreeMap<DateTime, SplayTreeSet<RecordModel>> records = SplayTreeMap<
+      DateTime,
+      SplayTreeSet<RecordModel>>();
+
+//  List<RecordModel> records = [
+//    RecordModel(
+//        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)),
+//    RecordModel(
+//        DateTime.now(), SleepTypeEnum.NIGHT, Duration(hours: 1, minutes: 20)),
+//    RecordModel(
+//        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 30)),
+//    RecordModel(
+//        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 0, minutes: 60)),
+//  ];
 
   @override
   Widget build(BuildContext context) {
+    SplayTreeSet splayTreeSet = SplayTreeSet<RecordModel>(
+            (key1, key2) => key1.dateTime.compareTo(key2.dateTime));
+    splayTreeSet.add(RecordModel(DateTime.now().add(Duration(days: 2)),
+        SleepTypeEnum.NAP, Duration(hours: 2, minutes: 10)));
+    splayTreeSet.add(RecordModel(
+        DateTime.now(), SleepTypeEnum.NAP, Duration(hours: 1, minutes: 20)));
+    splayTreeSet.add(RecordModel(
+        DateTime.now().add(Duration(hours: 2)), SleepTypeEnum.NIGHT,
+        Duration(hours: 1, minutes: 20)));
+
+    records.addAll({
+      DateTime.now().add(Duration(days: 2)): splayTreeSet,
+      DateTime.now(): splayTreeSet,
+      DateTime.now().add(Duration(days: 4)): splayTreeSet,
+    });
+
+    records.forEach((key, value) {
+      print(key.toString());
+    });
+    List recordKeys = records.keys.toList();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -64,12 +95,40 @@ class _RecordsState extends State<Records> {
             SizedBox(height: 24),
             GradientButton('Add new sleeping record'),
             Expanded(
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return RecordsItem(records[index]);
-                  },
-                  separatorBuilder: (context, index) => Divider(height: 1, thickness: 1),
-                  itemCount: records.length),
+              child: ListView.builder(
+                itemCount: recordKeys.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  SplayTreeSet recordsInDay = records[recordKeys[index]];
+//                    if (index == 0) {
+//                      index--;
+//                      return Text("asd");
+//                    }
+//                    else if (records[index].dateTime
+//                        .difference(records[index - 1].dateTime)
+//                        .inDays > 0)
+//                      return Text("asd");
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        recordKeys[index].toString(),
+                      ),
+                      Card(
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              Divider(height: 1, thickness: 1),
+                          itemCount: recordsInDay.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return RecordsItem(recordsInDay.elementAt(index));
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ],
         ),
