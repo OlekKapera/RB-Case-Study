@@ -9,8 +9,7 @@ class RecordModel {
   RecordModel({this.dateTime, this.sleepType, this.duration});
 
   String getFormattedDuration() {
-    if (duration == null)
-      return null;
+    if (duration == null) return null;
     int minutes = duration.inMinutes % 60;
 
     String hours = Intl.plural(duration.inHours,
@@ -22,7 +21,7 @@ class RecordModel {
     return '$hours $minutesString';
   }
 
-  String getFormattedType() {
+  static String getFormattedType(SleepTypeEnum sleepType) {
     switch (sleepType) {
       case SleepTypeEnum.NIGHT:
         return "Night's sleep";
@@ -30,6 +29,6 @@ class RecordModel {
       case SleepTypeEnum.NAP:
         return "Nap";
     }
-    return "";
+    return null;
   }
 }

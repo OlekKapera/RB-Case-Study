@@ -80,6 +80,7 @@ class _AddRecordState extends State<AddRecord> {
             icon: CustomIcons.moon,
             title: 'Sleep type',
             holderText: 'Night, nap, etc',
+            text: RecordModel.getFormattedType(widget.record.sleepType),
             onClick: () {
               showModalBottomSheet(
                   context: context,
@@ -132,15 +133,6 @@ class _AddRecordState extends State<AddRecord> {
   }
 
   ListTile _createListTile(BuildContext context, SleepTypeEnum sleepType) {
-    String text;
-    switch (sleepType) {
-      case SleepTypeEnum.NIGHT:
-        text = "Night's sleep";
-        break;
-      case SleepTypeEnum.NAP:
-        text = 'Nap';
-        break;
-    }
     return ListTile(
       onTap: () {
         setState(() {
@@ -150,7 +142,7 @@ class _AddRecordState extends State<AddRecord> {
       },
       contentPadding: EdgeInsets.all(8),
       title: Text(
-        text,
+        RecordModel.getFormattedType(sleepType),
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 18),
       ),

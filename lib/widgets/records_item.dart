@@ -50,7 +50,7 @@ class RecordsItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    record.getFormattedType(),
+                    RecordModel.getFormattedType(record.sleepType),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
