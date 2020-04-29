@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rbcasestudy/models/record_model.dart';
 import 'package:rbcasestudy/custom_icons_icons.dart';
 import 'package:rbcasestudy/models/sleep_type_enum.dart';
@@ -62,70 +63,79 @@ class _RecordsState extends State<Records> {
         ),
       ),
       body: CustomScrollView(slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildListDelegate([
-            CircleAvatar(
-              backgroundColor: Colors.yellow[800],
-              radius: 22,
-              child: Icon(
-                CustomIcons.moon,
-                color: Colors.white,
-                size: 20,
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16.0, 32, 16.0, 0),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              CircleAvatar(
+                backgroundColor: Colors.yellow[800],
+                radius: 22,
+                child: Icon(
+                  CustomIcons.moon,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Get to know your baby\'s sleep patterns and keep track of how much sleep they are getting here',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey[500],
-                fontSize: 15,
-                backgroundColor: Colors.white,
-                fontWeight: FontWeight.bold,
+              SizedBox(height: 16),
+              Text(
+                'Get to know your baby\'s sleep patterns and keep track of how much sleep they are getting here',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 15,
+                  backgroundColor: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 24),
-            GradientButton('Add new sleeping record'),
-            Expanded(
-              child: ListView.builder(
-                itemCount: recordKeys.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  SplayTreeSet recordsInDay = records[recordKeys[index]];
-//                    if (index == 0) {
-//                      index--;
-//                      return Text("asd");
-//                    }
-//                    else if (records[index].dateTime
-//                        .difference(records[index - 1].dateTime)
-//                        .inDays > 0)
-//                      return Text("asd");
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        recordKeys[index].toString(),
-                      ),
-                      Card(
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) =>
-                              Divider(height: 1, thickness: 1),
-                          itemCount: recordsInDay.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return RecordsItem(
-                                recordsInDay.elementAt(index));
-                          },
+              SizedBox(height: 24),
+              GradientButton('Add new sleeping record'),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: recordKeys.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    SplayTreeSet recordsInDay = records[recordKeys[index]];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 64, 0, 32),
+                          child: Text(
+                            DateFormat('EEEE, d LLL yyyy').format(recordKeys[index]).toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
+                        Card(
+                          elevation: 3,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) =>
+                                Divider(height: 1, thickness: 1),
+                            itemCount: recordsInDay.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return RecordsItem(
+                                  recordsInDay.elementAt(index));
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ]),
     );
