@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-class DurationDialog extends AlertDialog {
+class DurationDialog extends StatefulWidget {
   Duration duration;
   Function callback;
 
@@ -10,28 +10,72 @@ class DurationDialog extends AlertDialog {
   }
 
   @override
+  _DurationDialogState createState() => _DurationDialogState();
+}
+
+class _DurationDialogState extends State<DurationDialog> {
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Pick sleep duration'),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          NumberPicker.integer(
-              initialValue: duration.inHours,
-              minValue: 0,
-              maxValue: 23,
-              onChanged: (hour) {
-                duration =
-                    Duration(hours: hour, minutes: (duration.inSeconds % 60));
-              }),
-          Text(':'),
-          NumberPicker.integer(
-              initialValue: duration.inMinutes % 60,
-              minValue: 0,
-              maxValue: 59,
-              onChanged: (minute) {
-                duration = Duration(hours: duration.inHours, minutes: minute);
-              }),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              NumberPicker.integer(
+                  initialValue: widget.duration.inHours,
+                  minValue: 0,
+                  maxValue: 23,
+                  onChanged: (hour) {
+                    setState(() {
+                      widget.duration = Duration(
+                          hours: hour,
+                          minutes: (widget.duration.inMinutes % 60));
+                    });
+                  }),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Text(
+                  'HOURS',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              NumberPicker.integer(
+                  initialValue: widget.duration.inMinutes % 60,
+                  minValue: 0,
+                  maxValue: 59,
+                  onChanged: (minute) {
+                    setState(() {
+                      widget.duration = Duration(
+                          hours: widget.duration.inHours, minutes: minute);
+                    });
+                  }),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Text(
+                  'MINUTES',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       actions: <Widget>[
@@ -44,8 +88,8 @@ class DurationDialog extends AlertDialog {
         FlatButton(
           child: Text('OK'),
           onPressed: () {
-            if (duration != Duration()) callback(duration);
-            Navigator.pop(context, duration);
+            if (widget.duration != Duration()) widget.callback(widget.duration);
+            Navigator.pop(context, widget.duration);
           },
         ),
       ],
